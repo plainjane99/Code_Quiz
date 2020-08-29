@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: block;
+}
+
+header {
+    background-color: grey;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+header p { 
+    color: white;
+}
+
+.question-section {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-section p {
+    text-align: center;
+}
+
+.answer-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.answer-section p {
+    width: 75%;
+    border-top: 1px solid grey;
+    text-align: center;
+    padding: 20px;
+}
+
+
