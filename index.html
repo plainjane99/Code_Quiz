@@ -11,7 +11,10 @@
     <header>
         <!-- The header will include the Timer and High Score -->
         <p>View High Scores</p>
-        <p>Timer: </p>
+        <div>
+            <p>Timer:</p>
+            <p id="timer"></p>
+        </div>
 
     </header>
 
@@ -19,9 +22,11 @@
         <!-- The main will include the dynamically updated html and css -->
 
         <!-- Quiz section: Question and Multiple Choice -->
-        <div class="question-section">
-            <p>This is the question section.</p>
-        </div>
+        <section class="question-section">
+            <div id="question-text"></div>
+            <div id="choices" class="buttons"></div>
+        </section>
+
         <!-- Quiz section: Notification of correct or incorrect answer-->
         <div class="answer-section">
             <p>This is the answer section.</p>
