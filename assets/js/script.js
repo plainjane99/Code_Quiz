@@ -11,7 +11,7 @@ var questions = [
     b: 'swim, bike, run',
     c: 'bike, run, swim',
     d: 'run, bike, swim',
-    answer: 'b'
+    id: 'b'
   },
   {
     q: 'What is the distance run in a marathon?',
@@ -19,7 +19,7 @@ var questions = [
     b: '31.1 miles',
     c: '26.2 miles',
     d: '6.2 miles',
-    answer: 'c'
+    id: 'c'
   },
   {
     q: 'Who is the first woman to climb a route graded 5.15a?',
@@ -27,7 +27,7 @@ var questions = [
     b: 'Alex Puccio',
     c: 'Nina Williams',
     d: 'Margo Hayes',
-    answer: 'd'
+    id: 'd'
   },
   {
     q: 'What sport is Danny MacAskill known for?',
@@ -35,7 +35,7 @@ var questions = [
     b: 'Snowboarding',
     c: 'Rock climbing',
     d: 'Surfing',
-    answer: 'a'
+    id: 'a'
   },
   {
     q: 'Which of the following trails is the longest?',
@@ -43,7 +43,7 @@ var questions = [
     b: 'Continental Divide Trail',
     c: 'Appalachian Trail',
     d: 'John Muir Trail',
-    answer: 'b'
+    id: 'b'
   }
 ];
 
@@ -52,11 +52,11 @@ var questions = [
 // Timer needs to stop at 0 and clear
 function countdown() {
 
-  var timeLeft = 10;
+  var timeLeft = 120;
   timerEl.textContent = timeLeft;
 
   var timeInterval = setInterval(function() {
-    if (timeLeft > 1) {
+    if (timeLeft > 0) {
       timerEl.textContent = timeLeft;
       timeLeft--;
     } else {
@@ -64,19 +64,8 @@ function countdown() {
       clearInterval(timeInterval);
     }
   }, 1000);
-}
-  
-// Start screen gives the user the quiz instructions 
-// Start screen requires user to click the "Start" button to proceed to questions
-function startScreen() {
-  // this calls the function and displays the quiz instructions 
-  var startTextEl = createStartMessage();
-  questionTextEl.appendChild(startTextEl);
 
-  // this displays the start button
-  var buttonEl = createStartButton();
-  startButtonEl.appendChild(buttonEl);
-}
+};
 
 // this is the function for the quiz instructions 
 var createStartMessage = function() {
@@ -108,16 +97,38 @@ var createStartButton = function() {
 
   return startButtonEl;
 
-}
+};
+
+// Start screen gives the user the quiz instructions 
+// Start screen requires user to click the "Start" button to proceed to questions
+function startScreen() {
+  
+  // this displays the quiz instructions 
+  var startTextEl = createStartMessage();
+  questionTextEl.appendChild(startTextEl);
+
+  // this displays the start button
+  var buttonEl = createStartButton();
+  startButtonEl.appendChild(buttonEl);
+
+  // this event listener awaits the user to click "Start Quiz" to proceed to the quiz
+  startButtonEl.addEventListener("click", removeStartData);
+};
 
 // delete existing start data
-var removeStartData = function() {
+function removeStartData() {
+  
+  // this removes the event listener associated with the start button
+  startButtonEl.removeEventListener("click", removeStartData);
+
   // this removes the start screen instructions and button
   var removeStartMessageEl = document.getElementById('start-msg');
   questionTextEl.removeChild(removeStartMessageEl);
 
   var removeStartButtonEl = document.getElementById('start');
   choicesButtonEl.removeChild(removeStartButtonEl);
+
+  startQuiz();
 };
 
 // function for creating a div for questions
@@ -137,10 +148,10 @@ var generateChoiceAEl = function(i) {
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "a. " + questions[i].a;
   choiceButtonEl.className = "choice-btn-a";
-  choiceButtonEl.setAttribute("id", 'current-question');
+  choiceButtonEl.setAttribute("id", 'a');
 
   return choiceButtonEl;
-}
+};
 
 // function for creating a div for answer B choice
 var generateChoiceBEl = function(i) {
@@ -148,10 +159,10 @@ var generateChoiceBEl = function(i) {
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "b. " + questions[i].b;
   choiceButtonEl.className = "choice-btn-b";
-  choiceButtonEl.setAttribute("id", 'current-question');
+  choiceButtonEl.setAttribute("id", 'b');
 
   return choiceButtonEl;
-}
+};
 
 // function for creating a div for answer C choice
 var generateChoiceCEl = function(i) {
@@ -159,10 +170,10 @@ var generateChoiceCEl = function(i) {
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "c. " + questions[i].c;
   choiceButtonEl.className = "choice-btn-c";
-  choiceButtonEl.setAttribute("id", 'current-question');
+  choiceButtonEl.setAttribute("id", 'c');
 
   return choiceButtonEl;
-}
+};
 
 // function for creating a div for answer D choice
 var generateChoiceDEl = function(i) {
@@ -170,50 +181,53 @@ var generateChoiceDEl = function(i) {
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "d. " + questions[i].d;
   choiceButtonEl.className = "choice-btn-d";
-  choiceButtonEl.setAttribute("id", 'current-question');
+  choiceButtonEl.setAttribute("id", 'd');
 
   return choiceButtonEl;
-}
+};
 
-// this is the function that handles the multiple choice selection
+// this is the function that converts the user selection to an id
 var multipleChoiceHandler = function(event) {
-  return (event.target);
+  console.log(event.target.id);
+  return(event.target.id);
+};
+
+// this is the function that listens for the user selection
+function answerListener() {
+  choicesButtonEl.addEventListener("click", multipleChoiceHandler);
+};
+
+// this is the function that displays the questions and answer choices
+function displayQuestions(i) {
+  questionTextEl.append(generateQuestionEl(i));
+  choicesButtonEl.append(generateChoiceAEl(i));  
+  choicesButtonEl.append(generateChoiceBEl(i));  
+  choicesButtonEl.append(generateChoiceCEl(i));  
+  choicesButtonEl.append(generateChoiceDEl(i));
+
+  answerListener();
 }
 
 // this is the function that begins the quiz questions
 function startQuiz() {
 
-  // debugger;
-  removeStartData();
-
   countdown();
 
-  // for (var i = 0; i < questions.length; i++) {  
-  // }
+  // for (var i = 0; i < questions.length; i++)
+  for (i = 0; i < 1; i++) {  
+    displayQuestions(i);
 
-  for (var i = 0; i < 1; i++) {  
-    questionTextEl.append(generateQuestionEl(i));
-    choicesButtonEl.append(generateChoiceAEl(i));  
-    choicesButtonEl.append(generateChoiceBEl(i));  
-    choicesButtonEl.append(generateChoiceCEl(i));  
-    choicesButtonEl.append(generateChoiceDEl(i));
-    
-    // this event listener awaits the user to click an answer from the mulitple choice
-    // var userAnswer = choicesButtonEl.addEventListener("click", multipleChoiceHandler);
+    // this saves the correct answer in a variable
+    var correctAnswer = questions[i].id;
+    console.log(correctAnswer);
+    return(correctAnswer);
 
-    // var answer = 
-    // if (userAnswer.matches(questions[i].answer)) {
-    //   console.log("they match!!!");
-    // }
   }
-
 
 };
 
-// Keep track of the index and print current question.
-// Questions require user to click a button to respond.
-// If question is answered correctly (TRUE), goes to next question (++).
-// Else incorrectly (FALSE) answered question decreases time then goes to next question if time is not 0.
+// If question is answered correctly, go to next question (++).
+// Else incorrectly answered question decreases time then goes to next question if time is not 0.
 // If timer = 0, returns out of function to game over function.
 
 
@@ -225,9 +239,10 @@ function startQuiz() {
 
 // High score function shows user's final score and initials in a list
 
-// all addEventListeners are here
-// this event listener awaits the user to click "Start Quiz" to proceed to the quiz
-startButtonEl.addEventListener("click", startQuiz);
+// This code is to pre-set local storage to demonstrate that I understand the concept
+localStorage.setItem('initials', 'JH');
+localStorage.setItem('high-score', '25');
 
 // Calling function to start the application
 startScreen();
+
