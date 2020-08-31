@@ -3,13 +3,18 @@
     padding: 0;
 }
 
+:root {
+    --primary: #483D8B;
+    --secondary: white;
+}
+  
 body {
     display: block;
 }
 
 header {
-    background-color: grey;
-    color: white;
+    background-color: var(--primary);
+    color: var(--secondary);
     padding: 20px 30px;
     display: flex;
     justify-content: space-between;
@@ -44,18 +49,21 @@ header div {
 } 
 
 .start-btn {
-    color: black;
+    color: var(--secondary);
     font-size: 20px;
     padding: 5px 7px;
-    background: grey;
+    background: var(--primary);
 }
 
-.choice-btn {
-    color: white;
+.choice-btn-a,
+.choice-btn-b,
+.choice-btn-c,
+.choice-btn-d {
+    color: var(--secondary);
     font-size: 16px;
     padding: 5px 7px;
     margin: 3px;
-    background: #483D8B;
+    background: var(--primary);
     display: flex;
 }
 

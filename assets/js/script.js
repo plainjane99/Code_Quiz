@@ -110,9 +110,6 @@ var createStartButton = function() {
 
 }
 
-// this event listener allows the user to proceed to the quiz
-startButtonEl.addEventListener("click", startQuiz);
-
 // delete existing start data
 var removeStartData = function() {
   // this removes the start screen instructions and button
@@ -139,7 +136,7 @@ var generateChoiceAEl = function(i) {
 
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "a. " + questions[i].a;
-  choiceButtonEl.className = "choice-btn";
+  choiceButtonEl.className = "choice-btn-a";
   choiceButtonEl.setAttribute("id", 'current-question');
 
   return choiceButtonEl;
@@ -150,7 +147,7 @@ var generateChoiceBEl = function(i) {
 
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "b. " + questions[i].b;
-  choiceButtonEl.className = "choice-btn";
+  choiceButtonEl.className = "choice-btn-b";
   choiceButtonEl.setAttribute("id", 'current-question');
 
   return choiceButtonEl;
@@ -161,7 +158,7 @@ var generateChoiceCEl = function(i) {
 
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "c. " + questions[i].c;
-  choiceButtonEl.className = "choice-btn";
+  choiceButtonEl.className = "choice-btn-c";
   choiceButtonEl.setAttribute("id", 'current-question');
 
   return choiceButtonEl;
@@ -172,15 +169,21 @@ var generateChoiceDEl = function(i) {
 
   var choiceButtonEl = document.createElement("button");
   choiceButtonEl.textContent = "d. " + questions[i].d;
-  choiceButtonEl.className = "choice-btn";
+  choiceButtonEl.className = "choice-btn-d";
   choiceButtonEl.setAttribute("id", 'current-question');
 
   return choiceButtonEl;
 }
 
+// this is the function that handles the multiple choice selection
+var multipleChoiceHandler = function(event) {
+  return (event.target);
+}
+
 // this is the function that begins the quiz questions
 function startQuiz() {
 
+  // debugger;
   removeStartData();
 
   countdown();
@@ -193,17 +196,25 @@ function startQuiz() {
     choicesButtonEl.append(generateChoiceAEl(i));  
     choicesButtonEl.append(generateChoiceBEl(i));  
     choicesButtonEl.append(generateChoiceCEl(i));  
-    choicesButtonEl.append(generateChoiceDEl(i));  
+    choicesButtonEl.append(generateChoiceDEl(i));
+    
+    // this event listener awaits the user to click an answer from the mulitple choice
+    // var userAnswer = choicesButtonEl.addEventListener("click", multipleChoiceHandler);
+
+    // var answer = 
+    // if (userAnswer.matches(questions[i].answer)) {
+    //   console.log("they match!!!");
+    // }
   }
 
 
 };
 
-  // Keep track of the index and print current question.
-  // Questions require user to click a button to respond.
-  // If question is answered correctly (TRUE), goes to next question (++).
-  // Else incorrectly (FALSE) answered question decreases time then goes to next question if time is not 0.
-  // If timer = 0, returns out of function to game over function.
+// Keep track of the index and print current question.
+// Questions require user to click a button to respond.
+// If question is answered correctly (TRUE), goes to next question (++).
+// Else incorrectly (FALSE) answered question decreases time then goes to next question if time is not 0.
+// If timer = 0, returns out of function to game over function.
 
 
 
@@ -214,6 +225,9 @@ function startQuiz() {
 
 // High score function shows user's final score and initials in a list
 
+// all addEventListeners are here
+// this event listener awaits the user to click "Start Quiz" to proceed to the quiz
+startButtonEl.addEventListener("click", startQuiz);
 
 // Calling function to start the application
 startScreen();
