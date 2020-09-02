@@ -6,44 +6,29 @@ var choicesButtonEl = document.getElementById('choices');
 
 var questions = [
   {
-    q: 'What is the most common sequence of events for a triathlon?',
-    a: 'run, swim, bike',
-    b: 'swim, bike, run',
-    c: 'bike, run, swim',
-    d: 'run, bike, swim',
-    id: 'b'
+    question: 'What is the most common sequence of events for a triathlon?',
+    choices: ['a: run, swim, bike', 'b: swim, bike, run', 'c: bike, run, swim', 'd: run, bike, swim'],
+    answer: 'swim, bike, run'
   },
   {
-    q: 'What is the distance run in a marathon?',
-    a: '13.1 miles',
-    b: '31.1 miles',
-    c: '26.2 miles',
-    d: '6.2 miles',
-    id: 'c'
+    question: 'What is the distance run in a marathon?',
+    choices: ['a: 13.1 miles', 'b: 31.1 miles', 'c: 26.2 miles', 'd: 6.2 miles'],
+    answer: '26.2 miles'
   },
   {
-    q: 'Who is the first woman to climb a route graded 5.15a?',
-    a: 'Sasha DiGiulian',
-    b: 'Alex Puccio',
-    c: 'Nina Williams',
-    d: 'Margo Hayes',
-    id: 'd'
+    question: 'Who is the first woman to climb a route graded 5.15a?',
+    choices: ['a: Sasha DiGiulian', 'b: Alex Puccio', 'c: Nina Williams', 'd: Margo Hayes'],
+    answer: 'Margo Hayes'
   },
   {
-    q: 'What sport is Danny MacAskill known for?',
-    a: 'Street trials',
-    b: 'Snowboarding',
-    c: 'Rock climbing',
-    d: 'Surfing',
-    id: 'a'
+    question: 'What sport is Danny MacAskill known for?',
+    choices: ['a: Street trials', 'b: Snowboarding', 'c: Rock climbing', 'd: Surfing'],
+    answer: 'Street trials'
   },
   {
-    q: 'Which of the following trails is the longest?',
-    a: 'Pacific Crest Trail',
-    b: 'Continental Divide Trail',
-    c: 'Appalachian Trail',
-    d: 'John Muir Trail',
-    id: 'b'
+    question: 'Which of the following trails is the longest?',
+    choices: ['a: Pacific Crest Trail', 'a: Continental Divide Trail', 'a: Appalachian Trail', 'a: John Muir Trail'],
+    answer: 'Continental Divide Trail'
   }
 ];
 
@@ -52,7 +37,7 @@ var questions = [
 // Timer needs to stop at 0 and clear
 function countdown() {
 
-  var timeLeft = 120;
+  var timeLeft = 10;
   timerEl.textContent = timeLeft;
 
   var timeInterval = setInterval(function() {
@@ -131,98 +116,77 @@ function removeStartData() {
   startQuiz();
 };
 
-// function for creating a div for questions
-var generateQuestionEl = function(i) {
-
-  var currentQuestionEl = document.createElement("div");
-  currentQuestionEl.textContent = questions[i].q;
-  currentQuestionEl.className = "question-text";
-  currentQuestionEl.setAttribute("id", 'current-question');
-
-  return currentQuestionEl;
-};
-
-// function for creating a div for answer A choice
-var generateChoiceAEl = function(i) {
-
-  var choiceButtonEl = document.createElement("button");
-  choiceButtonEl.textContent = "a. " + questions[i].a;
-  choiceButtonEl.className = "choice-btn-a";
-  choiceButtonEl.setAttribute("id", 'a');
-
-  return choiceButtonEl;
-};
-
-// function for creating a div for answer B choice
-var generateChoiceBEl = function(i) {
-
-  var choiceButtonEl = document.createElement("button");
-  choiceButtonEl.textContent = "b. " + questions[i].b;
-  choiceButtonEl.className = "choice-btn-b";
-  choiceButtonEl.setAttribute("id", 'b');
-
-  return choiceButtonEl;
-};
-
-// function for creating a div for answer C choice
-var generateChoiceCEl = function(i) {
-
-  var choiceButtonEl = document.createElement("button");
-  choiceButtonEl.textContent = "c. " + questions[i].c;
-  choiceButtonEl.className = "choice-btn-c";
-  choiceButtonEl.setAttribute("id", 'c');
-
-  return choiceButtonEl;
-};
-
-// function for creating a div for answer D choice
-var generateChoiceDEl = function(i) {
-
-  var choiceButtonEl = document.createElement("button");
-  choiceButtonEl.textContent = "d. " + questions[i].d;
-  choiceButtonEl.className = "choice-btn-d";
-  choiceButtonEl.setAttribute("id", 'd');
-
-  return choiceButtonEl;
-};
-
-// this is the function that converts the user selection to an id
+// this is the function that logs the user selection
 var multipleChoiceHandler = function(event) {
-  console.log(event.target.id);
-  return(event.target.id);
+  console.log(event.target);
+  // return(event.target);
 };
 
-// this is the function that listens for the user selection
-function answerListener() {
-  choicesButtonEl.addEventListener("click", multipleChoiceHandler);
+// function for creating a div for questions
+var generateQuestion = function() {
+
+  for (var i = 0; i < 1; i++) {
+    // displays the question
+    var displayQuestionEl = document.createElement("div");
+    displayQuestionEl.textContent = questions[i].question;
+    displayQuestionEl.className = "question-text";
+    displayQuestionEl.value = questions[i].answer;
+    console.log("the answer is: " + displayQuestionEl.value);
+
+    questionTextEl.append(displayQuestionEl);
+
+    // displays choice "a"
+    var choiceAButtonEl = document.createElement("button");
+    choiceAButtonEl.textContent = questions[i].choices[0];
+    choiceAButtonEl.className = "choice-btn-a";
+    choiceAButtonEl.value = questions[i].choices[0];
+    console.log(choiceAButtonEl.value);
+
+    questionTextEl.append(choiceAButtonEl);
+
+    // displays choice "b"
+    var choiceBButtonEl = document.createElement("button");
+    choiceBButtonEl.textContent = questions[i].choices[1];
+    choiceBButtonEl.className = "choice-btn-b";
+    choiceBButtonEl.value = questions[i].choices[1];
+    console.log(choiceBButtonEl.value);
+
+    questionTextEl.append(choiceBButtonEl);
+    
+    // displays choice "c"
+    var choiceCButtonEl = document.createElement("button");
+    choiceCButtonEl.textContent = questions[i].choices[2];
+    choiceCButtonEl.className = "choice-btn-c";
+    choiceCButtonEl.value = questions[i].choices[2];
+    console.log(choiceCButtonEl.value);
+
+    questionTextEl.append(choiceCButtonEl);
+
+    // displays choice "d"
+    var choiceDButtonEl = document.createElement("button");
+    choiceDButtonEl.textContent = questions[i].choices[3];
+    choiceDButtonEl.className = "choice-btn-d";
+    choiceDButtonEl.value = questions[i].choices[3];
+    console.log(choiceDButtonEl.value);
+
+    questionTextEl.append(choiceDButtonEl);
+
+    // debugger;
+
+    // awaits the user selection
+    var userAnswer = choicesButtonEl.addEventListener("click", multipleChoiceHandler);
+    console.log(userAnswer);
+
+  }
+    
 };
-
-// this is the function that displays the questions and answer choices
-function displayQuestions(i) {
-  questionTextEl.append(generateQuestionEl(i));
-  choicesButtonEl.append(generateChoiceAEl(i));  
-  choicesButtonEl.append(generateChoiceBEl(i));  
-  choicesButtonEl.append(generateChoiceCEl(i));  
-  choicesButtonEl.append(generateChoiceDEl(i));
-
-  answerListener();
-}
 
 // this is the function that begins the quiz questions
 function startQuiz() {
 
   countdown();
 
-  // for (var i = 0; i < questions.length; i++)
-  for (i = 0; i < 1; i++) {  
-    displayQuestions(i);
-
-    // this saves the correct answer in a variable
-    var correctAnswer = questions[i].id;
-    console.log(correctAnswer);
-    return(correctAnswer);
-
-  }
+  generateQuestion();
 
 };
 
